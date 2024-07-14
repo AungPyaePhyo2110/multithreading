@@ -1,9 +1,7 @@
-CXX=/opt/homebrew/opt/gcc/bin/aarch64-apple-darwin23-c++-13
-
-LD=/opt/homebrew/opt/gcc/bin/aarch64-apple-darwin23-c++-13
-
+CXX=g++
+LD=g++
 AR=ar
-CXXFLAGS=-g -std=c++20 -Wall -pedantic -O2
+CXXFLAGS=-std=c++20 -fsanitize=thread -g -Wall -pedantic -O2
 SHELL:=/bin/bash
 MACHINE=$(shell uname -m)-$(shell echo $$OSTYPE)
 
@@ -13,7 +11,7 @@ deps:
 	g++ -MM *.cpp > Makefile.d
 
 test: solution.o sample_tester.o
-	$(LD) $(CXXFLAGS) -o $@ $^ -L./$(MACHINE) -lprogtest_solver -lpthread
+	$(LD) $(CXXFLAGS) -o $@ $^ -L./aarch64-linux-gnu -lprogtest_solver -lpthread
 
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
